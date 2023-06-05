@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+	<%@page import="java.util.ArrayList" %>
+	<%@page import="jspdemo.*" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,15 +14,19 @@
 </head>
 
 <body>
+
+	 <% 
+        // Retrieve the ArrayList from the request
+        ArrayList<VaccinationHistory> list = (ArrayList<VaccinationHistory>)request.getAttribute("arrayList");
+    %>
     <h1 class="page-title">Вакцин бүртгэлийн системд тавтай морил!</h1>
 
     <div class="container">
-        <h2 class="sub-title">Вакцинжуулалтын бүртгэлээс хайх иргэний нэрийг оруулна уу</h2>
-        <form method="get" action="myServlet">
-            <label for="name">Нэр</label>
-            <input type="text" name="name" id="name">
-            <input type="submit" name="submit" id="submit" value="Хайх">
-        </form>
+        <ul>
+        	<% for(VaccinationHistory vacHistory : list) {%>
+        		<li><%=vacHistory.getFname() %></li>
+        	<%} %>
+        </ul>
     </div>
 </body>
 

@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.io.ObjectOutputStream;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,21 +38,29 @@ public class myServlet extends HttpServlet {
 		VaccinationHistoryDAO dao;
 		try {
 			dao = new VaccinationHistoryDAO();
-			vh = new ArrayList<>(dao.getAllVacHistory());
-
-	        // Set the content type and character encoding of the response
-	        response.setContentType("application/octet-stream");
-	        response.setCharacterEncoding("UTF-8");
+			
+			if(request.getParameter("id") == "") {
+				vh = new ArrayList<>(dao.getAllVacHistory());
+			}
+			
+			else
+				vh = new ArrayList<>(dao.getVacHistoryByRd(request.getParameter("id")));
+			
 	        
-	        ObjectOutputStream oos = new ObjectOutputStream(response.getOutputStream());
-	        oos.writeObject(vh);
-	        oos.flush();
-	        oos.close();
+//	        ObjectOutputStream oos = new ObjectOutputStream(response.getOutputStream());
+//	        oos.writeObject(vh);
+//	        oos.flush();
+//	        oos.close();
+	        
+	        request.setAttribute("arrayList", vh);
+	        request.getRequestDispatcher("/index.jsp").forward(request, response);
 	        
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	
 		
 	}
 
@@ -58,8 +68,16 @@ public class myServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String rd = request.getParameter("rd");
+		String vaccineId = request.getParameter("vaccines");
+		VaccinationHistoryDAO dao;
+		try {
+			dao = new VaccinationHistoryDAO();
+			dao.insertVacHistory(rd, vaccineId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }
