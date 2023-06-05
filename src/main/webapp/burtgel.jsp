@@ -14,7 +14,7 @@
     <h1 class="page-title">Вакцин бүртгэлийн системд тавтай морил!</h1>
 
     <div class="container">
-        <h2 class="sub-title">Вакцинжуулалтын системд бүртгүүлнэ үү</h2>
+        <h2 class="sub-title">Шинээр вакцинжуулалт бүртгэх</h2>
         <form method="post" action="myServlet">
             <label for="name">Нэр</label>
             <input type="text" name="name" id="name">
